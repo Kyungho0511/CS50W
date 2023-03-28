@@ -1,0 +1,102 @@
+body {
+    padding: 10px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+#listing {
+    display: inline;
+}
+
+#create input, #create textarea, select {
+    display: block;
+    width: 600px;
+    margin-bottom: 20px;
+}
+
+option[value=""] {
+    display: none;
+}
+
+.listing_text {
+    padding-top: 40px;
+    list-style-type: none;
+}
+
+.nav-item {
+    list-style-type: none;
+}
+
+.description {
+    padding-top: 15px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.description2 {
+    width: 600px;
+}
+
+.image {
+    text-align: center;
+}
+
+img {
+    max-width: 100%;
+    max-height: 400px;
+}
+
+.item {
+    margin-bottom: 50px;
+    border: solid 1px #e6e6e6;
+}
+
+.title_link, .title_link:hover {
+    color: black;
+}
+
+button[name="watchlist"] {
+    margin-left: 20px;
+    margin-bottom: 10px;
+    padding: 3px 8px;
+    font-size: 14px;
+}
+
+.watchlist {
+    display: inline;
+}
+
+#price {
+    margin-top: 20px;
+}
+
+#id_price {
+    width: 400px;
+}
+
+.error {
+    color: red;
+    margin: 0;
+}
+
+.success {
+    color: green;
+    margin: 0;
+}
+
+#bid {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+#bid_status {
+    margin: 0;
+    font-size: 15px;
+}
+
+.bid_result {
+    font-size: 18px;
+    font-weight: bold;
+}
