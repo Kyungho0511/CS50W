@@ -1,0 +1,25 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>{{ category|title }}</h2>
+    {% for auction in auctions %}
+        {% if not auction.closed %}
+        <div class="row item">
+            <div class="col-lg-4 col-sm-6 image">
+                <a href="{% url 'listing' auction.title %}"><img src="{{ auction.image_url }}" alt="{{ auction.title }}"></a>
+            </div>
+            <div class="col-lg-6 col-sm-5">
+                <ul class="listing_text">
+                    <li><a class="title_link" href="{% url 'listing' auction.title %}"><h3>{{ auction.title }}</h3></a></li>
+                    <li>Current Price: ${{ auction.current_price }}</li>
+                    <li>Category: {{ auction.category }}</li>
+                    <li class="description">{{ auction.description }}</li>
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    {% empty %}
+        <h3>No Items on {{ category|title }}</h3>
+    {% endfor %}
+
+{% endblock %}

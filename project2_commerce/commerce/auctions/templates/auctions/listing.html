@@ -1,0 +1,84 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 id="listing">Listing: {{ item.title }}</h2>
+
+    {% if watchlist and logged_in %}
+        <form class="watchlist" action="{% url 'listing' item.title %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary" name="watchlist" value="remove">
+                Remove Watchlist
+            </button>
+        </form>
+    {% elif not watchlist and logged_in %}
+        <form class="watchlist" action="{% url 'listing' item.title %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary" name="watchlist" value="add">
+                Add Watchlist
+            </button>
+        </form>
+    {% endif %}
+
+    <hr>
+    <div>
+        <img src="{{ item.image_url }}" alt="{{ item.title }}">
+    </div>
+    <h3 id="price">${{ item.current_price }}</h3>
+
+    {% if not item.closed %}
+        {% if logged_in and host %}
+            <form action="{% url 'listing' item.title %}" method="post">
+                <p id="bid_status">{{ bids }}bid(s) so far.</p>
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary" id="bid" name="close">Close Auction</button>
+            </form>
+        {% else %}
+            {% if is_winner %}
+                <p id="bid_status">{{ bids }}bid(s) so far. Your bid is the current bid.</p>
+            {% else %}
+                <p id="bid_status">{{ bids }}bid(s) so far. Offer higher price to win the item.</p>
+            {% endif %}
+        
+            <form action="{% url 'listing' item.title %}" method="post">
+                {% csrf_token %}
+                {{ bid_form }}
+                <br>
+                {% if messages %}
+                    {% for message in messages %}
+                        <p class="{{ message.tags }}">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+                <button type="submit" class="btn btn-primary" id="bid">Place Bid</button>
+            </form>        
+        {% endif %}
+
+    {% elif item.closed and is_winner %}
+        <p class="bid_result">Congratulation! You have won the bid after {{ bids }}bid(s).</p>
+    {% else %}    
+        <p class="bid_result">You did not win the bid after {{ bids }}bid(s).</p>
+    {% endif %}
+
+    <div class="details">
+        <h3>Details</h3>
+        <p class="description2">{{ item.description }}</p>
+        <ul>
+            <li>Listed by: {{ item.username }}</li>
+            <li>Category: {{ item.category }}</li>
+            <li>Starting Price: ${{ item.starting_price }}</li>
+        </ul>
+    </div>
+
+    <form action="{% url 'listing' item.title %}" method="post" id="comment_form">
+        {% csrf_token %}
+        {{ comments_form }}
+        <br>
+        <button type="submit" class="btn btn-primary" id="comment">Comment</button>
+    </form>
+
+    <div>
+        {% for comment in comments %}
+            <p class="comment_user">{{ comment.username }}</p>
+            <p class="comment_content">{{ comment.contents }}</p>
+        {% endfor %}
+    </div>
+{% endblock %}
